@@ -1,0 +1,113 @@
+.disCurrency {
+  display: flex;
+  flex-direction: row;
+}
+.dish_img {
+  height: 100px;
+  width: 100px;
+  border-radius: 5px;
+}
+.button {
+  background-color: transparent;
+  height: 10px;
+  width: 10px;
+  color: white;
+  border-style: none;
+}
+.button-container {
+  background-color: green;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 30px;
+  width: 200px;
+  color: white;
+  font-weight: 500;
+  padding: 3px;
+}
+.cunt {
+  padding-bottom: 5px;
+}
+.custumization_text {
+  color: blue;
+}
+.dish_item {
+  list-style-type: none;
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 10px;
+}
+.green {
+  border-color: green;
+  height: 15px;
+  width: 15px;
+  color: green;
+  border: 2px solid green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.calories_text {
+  color: orange;
+  font-weight: bold;
+}
+.red {
+  border-color: rgb(201, 26, 125);
+  height: 15px;
+  width: 15px;
+  color: darkpink;
+  border: solid 2px darkpink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.not_text {
+  color: darkpink;
+}
+li {
+  list-style-type: none;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background-color: green;
+}
+@media screen and (max-width: 768px) {
+  .dish_item {
+    flex-direction: row;
+  }
+
+  .dish_item h1 {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .dish_item p {
+    font-size: 13px;
+    margin: 4px 0;
+  }
+
+  .dish_img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .calories_text {
+    font-size: 11px;
+  }
+
+  .button {
+    padding: 3px 8px;
+    font-size: 14px;
+  }
+
+  .count {
+    font-size: 14px;
+  }
+}
