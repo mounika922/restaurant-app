@@ -4,9 +4,8 @@ import DishItem from '../DishItem'
 const CategoryTabs = props => {
   const {categories, activeId, setActiveId} = props
 
-  const activeCategory = categories.find(
-    each => each.menuCategoryId === activeId,
-  )
+  const activeCategory =
+    categories.find(each => each.menuCategoryId === activeId) || {}
 
   const dishes = activeCategory?.categoryDishes || []
 
@@ -19,7 +18,7 @@ const CategoryTabs = props => {
               type="button"
               onClick={() => setActiveId(each.menuCategoryId)}
               className={
-                each.menuCategoryId === activeId ? 'active' : 'in-active'
+                each.menuCategoryId === activeId ? 'active' : 'inactive'
               }
             >
               {each.menuCategory}

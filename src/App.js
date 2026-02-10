@@ -1,60 +1,82 @@
-import './App.css'
 import {Component} from 'react'
+import {Route, Switch, Redirect, BrowserRouter} from 'react-router-dom'
 import CartContext from './context/CartContext'
+import Login from './components/Login'
 import Restaurant from './components/Restaurant'
+import Cart from './components/Cart'
+import ProtectedRoute from './components/ProtectedRoute'
 
 class App extends Component {
-  state = {
-    cartItems: {},
-    cartCount: 0,
+  state = {cartList: []}
+
+  removeAllCartItems = () => {
+    this.setState({cartList: []})
   }
 
-  addItem = dishId => {
-    this.setState(prevState => {
-      const prevDishCount = prevState.cartItems[dishId] || 0
-
-      return {
-        cartItems: {
-          ...prevState.cartItems,
-          [dishId]: prevDishCount + 1,
-        },
-        cartCount: prevState.cartCount + 1,
+  addCartItem = item => {
+    this.setState(prev => {
+      const exist = prev.cartList.find(each => each.dishId === item.dishId)
+      const quantityToAdd =
+        item.quantity && item.quantity > 0 ? item.quantity : 1
+      if (exist) {
+        return {
+          cartList: prev.cartList.map(each =>
+            each.dishId === item.dishId
+              ? {...each, quantity: each.quantity + quantityToAdd}
+              : each,
+          ),
+        }
       }
+      return {cartList: [...prev.cartList, {...item, quantity: quantityToAdd}]}
     })
   }
 
-  removeItem = dishId => {
-    this.setState(prevState => {
-      const prevDishCount = prevState.cartItems[dishId] || 0
-      if (prevDishCount === 0) {
-        return prevState
-      }
+  removeCartItem = id => {
+    this.setState(prev => ({
+      cartList: prev.cartList.filter(i => i.dishId !== id),
+    }))
+  }
 
-      return {
-        cartItems: {
-          ...prevState.cartItems,
-          [dishId]: prevDishCount - 1,
-        },
-        cartCount: prevState.cartCount - 1,
-      }
-    })
+  incrementCartItemQuantity = id => {
+    this.setState(prev => ({
+      cartList: prev.cartList.map(i =>
+        i.dishId === id ? {...i, quantity: i.quantity + 1} : i,
+      ),
+    }))
+  }
+
+  decrementCartItemQuantity = id => {
+    this.setState(prev => ({
+      cartList: prev.cartList
+        .map(i => (i.dishId === id ? {...i, quantity: i.quantity - 1} : i))
+        .filter(i => i.quantity > 0),
+    }))
   }
 
   render() {
-    const {cartItems, cartCount} = this.state
-
+    const {cartList} = this.state
     return (
-      <CartContext.Provider
-        value={{
-          cartItems,
-          cartCount,
-          addItem: this.addItem,
-          removeItem: this.removeItem,
-        }}
-      >
-        <Restaurant />
-      </CartContext.Provider>
+      <BrowserRouter>
+        <CartContext.Provider
+          value={{
+            cartList,
+            removeAllCartItems: this.removeAllCartItems,
+            addCartItem: this.addCartItem,
+            removeCartItem: this.removeCartItem,
+            incrementCartItemQuantity: this.incrementCartItemQuantity,
+            decrementCartItemQuantity: this.decrementCartItemQuantity,
+          }}
+        >
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <ProtectedRoute exact path="/" component={Restaurant} />
+            <ProtectedRoute path="/cart" component={Cart} />
+            <Redirect to="/login" />
+          </Switch>
+        </CartContext.Provider>
+      </BrowserRouter>
     )
   }
 }
+
 export default App

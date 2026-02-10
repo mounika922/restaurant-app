@@ -8,7 +8,9 @@
 .my_order {
   display: flex;
 }
-
+.heading {
+  color: black;
+}
 .cart-count {
   background-color: blue;
   color: white;

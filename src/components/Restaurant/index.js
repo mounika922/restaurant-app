@@ -13,9 +13,8 @@ class Restaurant extends Component {
     const url =
       'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details'
     const response = await fetch(url)
-    const data = await response.json()
-    console.log(data)
-    if (response.ok === true) {
+    if (response.ok) {
+      const data = await response.json()
       const restaurantName = data[0].restaurant_name
       const updatedCategory = data[0].table_menu_list.map(each => ({
         menuCategory: each.menu_category,
@@ -68,4 +67,5 @@ class Restaurant extends Component {
     )
   }
 }
+
 export default Restaurant

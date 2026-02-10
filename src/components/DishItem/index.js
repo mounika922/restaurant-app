@@ -3,10 +3,25 @@ import {Component} from 'react'
 import CartContext from '../../context/CartContext'
 
 class DishItem extends Component {
+  state = {count: 0}
+
+  incrementCount = () => {
+    this.setState(prev => ({count: prev.count + 1}))
+  }
+
+  decrementCount = () => {
+    this.setState(prevState => {
+      if (prevState.count === 0) {
+        return {count: 0}
+      }
+      return {count: prevState.count - 1}
+    })
+  }
+
   render() {
     const {dishDetails} = this.props
+    const {count} = this.state
     const {
-      dishId,
       dishName,
       dishAvailability,
       dishCurrency,
@@ -18,12 +33,13 @@ class DishItem extends Component {
     } = dishDetails
 
     const box = dishAvailability ? 'green' : 'red'
+    const dot = dishAvailability ? 'green-dot' : 'red-dot'
 
     return (
       <li>
         <div className="dish_item">
           <div className={box}>
-            <p className="dot" />
+            <p className={dot} />
           </div>
 
           <div>
@@ -35,15 +51,14 @@ class DishItem extends Component {
 
             <CartContext.Consumer>
               {value => {
-                const {addItem, removeItem, cartItems} = value
-                const count = cartItems[dishId] || 0
+                const {addCartItem} = value
                 return (
                   <>
-                    {dishAvailability ? (
+                    {dishAvailability && dishPrice > 0 ? (
                       <div className="button-container">
                         <button
                           type="button"
-                          onClick={() => addItem(dishId)}
+                          onClick={this.incrementCount}
                           className="button"
                         >
                           +
@@ -51,14 +66,24 @@ class DishItem extends Component {
                         <p>{count}</p>
                         <button
                           type="button"
-                          onClick={() => removeItem(dishId)}
+                          onClick={this.decrementCount}
                           className="button"
                         >
                           -
                         </button>
+                        {count > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              addCartItem({...dishDetails, quantity: count})
+                            }}
+                          >
+                            ADD TO CART
+                          </button>
+                        )}
                       </div>
                     ) : (
-                      <p>Not Available</p>
+                      <p className="not-available">Not Available</p>
                     )}
                   </>
                 )
@@ -74,4 +99,5 @@ class DishItem extends Component {
     )
   }
 }
+
 export default DishItem

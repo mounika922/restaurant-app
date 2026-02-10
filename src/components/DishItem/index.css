@@ -57,11 +57,11 @@
   font-weight: bold;
 }
 .red {
-  border-color: rgb(201, 26, 125);
+  border-color: red;
   height: 15px;
   width: 15px;
-  color: darkpink;
-  border: solid 2px darkpink;
+  color: red;
+  border: solid 2px red;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,11 +72,20 @@
 li {
   list-style-type: none;
 }
-.dot {
+.green-dot {
   height: 10px;
   width: 10px;
   border-radius: 50px;
   background-color: green;
+}
+.red-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background-color: red;
+}
+.not-available {
+  color: red;
 }
 @media screen and (max-width: 768px) {
   .dish_item {
